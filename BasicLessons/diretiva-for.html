@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <img :src="srcImg" :title="titleImg" width="100px" />
+        </div>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                srcImg: 'vuelogo.png',
+                titlesImg: ['Logo VUE 1', 'Logo VUE 2', 'Logo VUE3'],
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+        Vue.component('painel', {
+            data() {
+                return {
+                    titulo: 'Painel Noticias'
+                }
+            },
+            methods: {
+                alerteAlgumaCoisa(){
+                    this.titulo = 'alertar de alguma coisa';
+                }
+            },
+            template: `
+                <div>
+                    <h1>{{titulo}}</h1>
+                    <button @click="alertarAlgumaCoisa()">Alert</button>
+                </div>
+            `
+        });
+        const app = new Vue({
+            template: `
+                <div>
+                    <painel></painel>{{nome}}
+                    <button @click="atualizaQualquerCoisa()">Atualizar</button>
+                    <button @click="destruir()">Destruir</button>
+                </div>`,
+            data:{
+                nome: 1
+            },
+            methods: {
+                atualizaQualquerCoisa() {
+                    this.nome+= 1
+                },
+                destruir() {
+                    this.$destroy();
+                }
+            },
+            beforeCreate() {
+                console.log('antes de criar tudo')
+            },
+            created() {
+                console.log('quando ja foi criado')
+            },
+            beforeMount() {
+                console.log('antes de montar tudo')
+            },
+            Mount() {
+                console.log('tudo montado')
+            },
+            beforeUpdate(){
+                console.log('o valor é: ' + this.nome)
+            },
+            updated() {
+                console.log('depois de atualizar...agora é: ' + this.nome)
+            },
+            beforeDestroy() {
+                console.log('antes de destroir')
+            },
+            destroyed() {
+                console.log('destruido')
+            }
+        }).$mount('#app')
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <img v-bind:src="srcImg" v-bind:title="titleImg" />
+        <hr>
+        <!-- só o : é a mesma coisa que v-bind: -->
+        <a :href="url">Vue</a>
+        <p v-text="'teste qualquer'"></p>
+        <p v-text="textoParagrafo"></p>
+        <div v-html="textHtml"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                srcImg: 'vuelogo.png',
+                titleImg: 'Logo VUE',
+                url: 'http://vuejs.org',
+                textoParagrafo: 'texto de paragrafo',
+                textHtml: '<b>Teste</b> <br> qualquer'
+            },
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+</html>

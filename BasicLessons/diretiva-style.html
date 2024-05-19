@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+            <input type="text" v-model="textoDigitado" v-on:keyup.enter="addArray" />
+            <ul>
+                <li v-for="item in array" @click="alerta($event)"
+                    style="background: gray;"
+                >{{item}}</li>
+            </ul>
+        </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                textoDigitado: '',
+                array: []
+            },
+            methods: {
+                addArray(){
+                    this.array.push(this.textoDigitado)
+                    console.log('lista aray', this.array)
+                },
+                alerta(event) {
+                    element = event.target
+
+                    if (element.style.background == 'gray')
+                        event.target.style = "background: red"
+                    else 
+                        event.target.style = "background: gray"
+
+                    // alert(event.target.textContent.trim())
+                }
+            }
+        })
+    </script>
+</body>
+</html>

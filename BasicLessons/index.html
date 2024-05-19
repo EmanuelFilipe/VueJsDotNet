@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+        <p>{{isTrue ? 'Verdade' : 'False'}}</p>
+        <p v-for="(fruta, index) in frutas">{{index}} - {{fruta}}</p>        
+        <p>{{aluno.nome}}</p>
+        <p>{{number}}</p>        
+        <p>{{ teste() }}</p>
+
+        <ul>
+            <li v-for="(value, key, index) in ListaFrutas">{{index}} - {{key}}:{{value}}</li>
+        </ul>
+
+        <ul>
+            <li v-for="(value, key, index) in usuario">{{index}} - {{key}}: {{value}}</li>
+        </ul>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                msg: 'hello world',
+                isTrue: true,
+                frutas: ['pera', 'uva', 'maça'],
+                usuario: {
+                    nome: 'Filipe',
+                    telefone: '33852907'
+                },
+                ListaFrutas: [
+                    { id: 1,  nome: 'pera' },
+                    { id: 2,  nome: 'uva' },
+                    { id: 3,  nome: 'maça'}
+                ],
+                aluno: { nome: 'Paula'},
+                number: 1              
+            },
+            methods: {
+                teste() {
+                    return 'teste meu fi'
+                }
+            }
+        })
+    </script>
+</body>
+</html>

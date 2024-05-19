@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <form v-on:submit="add($event)">
+
+            <input type="text" v-model="textoDigitado" />
+            <input type="text" v-model="textoDigitado" v-on:keyup="add" />
+            <input type="text" v-model="textoDigitado" v-on:keyup.enter="addArray" />
+            <button type="submit">Add</button>
+
+            <ul>
+                <li v-for="item in array">{{item}}</li>
+            </ul>
+        </form>
+        </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                textoDigitado: '',
+                array: []
+            },
+            methods: {
+                add(event) {
+                    event.preventDefault();
+                    alert('teste')
+                },
+                addArray(){
+                    this.array.push(this.textoDigitado)
+                    console.log('lista aray', this.array)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

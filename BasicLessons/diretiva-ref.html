@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+            <br>
+            red
+            <input @click="colorParagraph($event.target.id)" type="radio" name="color" id="red" checked/>
+            green
+            <input @click="colorParagraph($event.target.id)" type="radio" name="color" id="green" />
+            blue
+            <input @click="colorParagraph($event.target.id)" type="radio" name="color" id="blue" />
+            yellow
+            <input @click="colorParagraph($event.target.id)" type="radio" name="color" id="yellow" />
+
+            <br>
+            <button @click="vermelho()">vermelho</button>
+            <button @click="verde()">verde</button>
+            <button @click="incolor()">incolor</button>
+            <button @click="borda()">borda</button>
+
+
+            <p ref="firstParagraph">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat sunt facere, id ipsum quod, fugiat mollitia nisi qui veniam exercitationem accusantium blanditiis suscipit fuga, delectus distinctio ea quo minus iusto?
+            </p>
+        </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                textoDigitado: '',
+                classParagraph: 'red',
+                colors: {
+                    vermelho: false,
+                    verde: false,
+                    borda: false
+                }
+            },
+            methods: {
+                addArray(){
+                    this.array.push(this.textoDigitado)
+                    console.log('lista aray', this.array)
+                },
+                alerta(event) {
+                    element = event.target
+
+                    if (element.style.background == 'gray')
+                        event.target.style = "background: red"
+                    else 
+                        event.target.style = "background: gray"
+                    // alert(event.target.textContent.trim())
+                },
+                colorParagraph(color){
+                    this.classParagraph = color
+                },
+                vermelho(){
+                    this.$refs.firstParagraph.style.background = 'red'
+                },
+                verde(){
+                    this.$refs.firstParagraph.style.background = 'green'
+                },
+                incolor(){
+                    this.$refs.firstParagraph.style = ""
+                },
+                borda(){
+                    this.$refs.firstParagraph.style.border = '2px solid black'
+                    
+                },
+            }
+        })
+    </script>
+</body>
+</html>
