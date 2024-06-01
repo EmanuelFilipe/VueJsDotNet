@@ -1,7 +1,7 @@
 <template>
   <div>
-    <TituloComponent titulo="Aluno" />
-    <div>
+    <TituloComponent :titulo="professorid != undefined ? 'Professor: ' + professor.nome : 'Todos os Alunos'" />
+    <div v-if="professorid != undefined">
       <input class="form-control" type="text" placeholder="Nome do Aluno" v-model="nome"
       v-on:keyup.enter="addAluno()">
       <button class="btn btnInput" @click="addAluno()"> Adicionar</button>
@@ -17,9 +17,11 @@
         <tbody v-if="alunos.length">
           <tr v-for="(aluno, index) in alunos" :key="index">
             <!-- <td>{{aluno.id}}</td> -->
-            <td>{{ index + 1 }}</td>
-            <td>{{aluno.nome}} {{ aluno.sobrenome }}</td>
-            <td>
+            <td class="colPequeno" style="text-align: center; width: 25px !important;">{{ aluno.id }}</td>
+            <router-link :to="`/alunoDetalhe/${aluno.id}`" tag="td" style="cursor: pointer">
+              {{aluno.nome}} {{ aluno.sobrenome }}
+            </router-link>
+            <td class="colPequeno">
               <button class="btn btn-danger" @click="remover(aluno)">Remover</button>
             </td>
           </tr>
@@ -34,23 +36,38 @@
 </template>
 
 <script>
-import TituloComponent from './_Shared/TituloComponent.vue'
+import TituloComponent from '../_Shared/TituloComponent.vue'
 
 export default {
+  name: 'AlunosComponent',
   components:{
     TituloComponent
   },
   data() {
     return {
       titulo: 'Aluno',
+      // prof_id vem do arquivo de router
+      // path: '/alunos/:prof_id',
+      professorid: this.$route.params.prof_id,
       nome: '',
-      alunos: []
+      alunos: [],
+      professor: {}
     }
   },
   created() {
-    this.$http.get('http://localhost:3000/alunos')
+    // eslint-disable-next-line no-debugger
+    debugger
+    if (this.professorid) {
+      this.carregarProfessores()
+      this.$http.get('http://localhost:3000/alunos?professor.id=' + this.professorid)
               .then(response => response.json())
               .then(alunos => this.alunos = alunos)
+    }
+    else {
+      this.$http.get('http://localhost:3000/alunos')
+                .then(response => response.json())
+                .then(alunos => this.alunos = alunos)
+    }
   },
   props: {
   },
@@ -58,7 +75,11 @@ export default {
     addAluno() {
       let _aluno = {
         nome: this.nome,
-        sobrenome: ""
+        sobrenome: "",
+        professor: {
+          id: this.professor.id,
+          nome: this.professor.nome
+        }
       }
 
       this.$http
@@ -82,6 +103,13 @@ export default {
                 this.alunos.splice(indice, 1);
               })
     },
+    carregarProfessores() {
+      this.$http.get(`http://localhost:3000/professores/${this.professorid}`)
+                .then(response => response.json())
+                .then(professor => {
+                  this.professor = professor
+                })
+    },
     clearNome() {
       this.nome = ''
     }
@@ -92,6 +120,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 input {
+  width: calc(100% - 195px);
   border: 0;
   padding: 20px;
   font-size: 1.3em;
@@ -99,6 +128,7 @@ input {
   display: inline;
 }
 .btnInput {
+  width: 155px;
   border: 0px;
   padding: 20px;
   font-size: 1.3em;
@@ -110,5 +140,6 @@ input {
   padding: 20px;
   margin: 0px;
   border: 0px;
+  background-color: darkblue;
 }
 </style>

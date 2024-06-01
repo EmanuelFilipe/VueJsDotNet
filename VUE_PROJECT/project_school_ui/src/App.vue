@@ -1,16 +1,20 @@
 <template>
   <div id="app">
-    <AlunosComponent />
+    <Nav></Nav>
+    <div class="marginPrincipal">
+      <AlunosComponent></AlunosComponent>
+      <router-view :key="$route.fullPath"></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-import AlunosComponent from './components/Aluno/AlunosComponent.vue'
+import Nav from './components/_nav/NavComponent.vue'
 
 export default {
   name: 'App',
   components: {
-    AlunosComponent
+    Nav
   }
 }
 </script>
@@ -18,14 +22,30 @@ export default {
 <style >
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
 
+.marginPrincipal{
+  width: 50%;
+  margin: auto;
+}
+
 #app {
+  width: 100%;
+}
+
+body {
   background-color: #eee;
   font-family: "Montserrat", sans-serif;
   display: grid;
   justify-items: center;
 }
 
+body, 
+html {
+  margin: 0;
+  height: 100%;
+}
+
 .btn-danger {
+  font-size: .8em !important;
   background-color: #fa4430;
 }
 .btn {
@@ -33,7 +53,9 @@ export default {
   padding: 10px 20px;
   cursor: pointer;
   color: white;
+  font-size: 1.1em;
   font-weight: bold;
+
   border-radius: 5px;
   border-bottom: 3px solid black;
 }
@@ -45,11 +67,7 @@ export default {
   background-color: rgb(185, 32, 11);
 }
 
-body, 
-html {
-  margin: 0;
-  height: 100%;
-}
+
 
 table {
   margin: 0px;
@@ -74,6 +92,9 @@ table tr td {
 
 .colPequeno {
   width: 5%;
+  text-align: right;
+  background-color: rgb(125, 217, 245);
+  font-weight: bold;
 }
 
 </style>
