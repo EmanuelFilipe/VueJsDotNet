@@ -21,3 +21,7 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Arquivos DotNetCore e EfCore
+bin
+obj
