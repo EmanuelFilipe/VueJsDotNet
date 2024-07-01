@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using ProjectSchool_API.Data;
+using ProjectSchool_API.Models;
 
 namespace ProjectSchool_API.Controllers;
 
@@ -6,17 +8,20 @@ namespace ProjectSchool_API.Controllers;
 [Route("api/[controller]")]
 public class ProfessorController : Controller
 {
-    public ProfessorController()
+    public IRepository<Professor> _repo { get; }
+    
+    public ProfessorController(IRepository<Professor> repository)
     {
-
+        _repo = repository;
     }
 
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
         try
         {
-            return Ok();
+            var result = await _repo.GetAllProfessoresAsync(true);
+            return Ok(result);
         }
         catch (Exception)
         {
@@ -25,11 +30,12 @@ public class ProfessorController : Controller
     }
 
     [HttpGet("{professorId:int}")]
-    public IActionResult Get(int professorId)
+    public async Task<IActionResult> GetProfessorById(int professorId)
     {
         try
         {
-            return Ok();
+            var result = await _repo.GetProfessorAsyncById(professorId, true);
+            return Ok(result);
         }
         catch (Exception)
         {
@@ -38,11 +44,18 @@ public class ProfessorController : Controller
     }
 
     [HttpPost]
-    public IActionResult Post()
+    public async Task<IActionResult> Post(Professor model)
     {
         try
         {
-            return Ok();
+            if (ModelState.IsValid)
+            {
+                _repo.Add(model);
+
+                if (await _repo.SaveChangesAsync())
+                    return Created($"/api/professor/{model.Id}", model);
+            }
+            return BadRequest();
         }
         catch (Exception)
         {
@@ -51,11 +64,25 @@ public class ProfessorController : Controller
     }
 
     [HttpPut("{professorId:int}")]
-    public IActionResult Put(int professorId)
+    public async Task<IActionResult> Put(int professorId, Professor model)
     {
         try
         {
-            return Ok();
+            if (ModelState.IsValid)
+            {
+                var professor = await _repo.GetProfessorAsyncById(professorId, false);
+
+                if (professor == null) return NotFound();
+
+                _repo.Update(model);
+
+                if (await _repo.SaveChangesAsync())
+                {
+                    professor = await _repo.GetProfessorAsyncById(professorId, true);
+                    return Created($"/api/professor/{model.Id}", professor);
+                }
+            }
+            return BadRequest();
         }
         catch (Exception)
         {
@@ -64,11 +91,19 @@ public class ProfessorController : Controller
     }
 
     [HttpDelete("{professorId:int}")]
-    public IActionResult Delete(int professorId)
+    public async Task<IActionResult> Delete(int professorId)
     {
         try
         {
-            return Ok();
+            var professor = await _repo.GetProfessorAsyncById(professorId, false);
+
+            if (professor == null) return NotFound();
+
+            _repo.Delete(professor);
+
+            if (await _repo.SaveChangesAsync()) return Ok();
+
+            return BadRequest();
         }
         catch (Exception)
         {
