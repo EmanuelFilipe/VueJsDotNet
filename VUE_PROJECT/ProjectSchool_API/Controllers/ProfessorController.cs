@@ -14,30 +14,65 @@ public class ProfessorController : Controller
     [HttpGet]
     public IActionResult Get()
     {
-        return View();
+        try
+        {
+            return Ok();
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Banco de dados Falhou!");
+        }
     }
 
-    [HttpGet("{alunoId:int}")]
-    public IActionResult Get(int alunoId)
+    [HttpGet("{professorId:int}")]
+    public IActionResult Get(int professorId)
     {
-        return View();
+        try
+        {
+            return Ok();
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Banco de dados Falhou!");
+        }
     }
 
     [HttpPost]
     public IActionResult Post()
     {
-        return View();
+        try
+        {
+            return Ok();
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Banco de dados Falhou!");
+        }
     }
 
-    [HttpPut("{alunoId:int}")]
-    public IActionResult Put(int alunoId)
+    [HttpPut("{professorId:int}")]
+    public IActionResult Put(int professorId)
     {
-        return View();
+        try
+        {
+            return Ok();
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Banco de dados Falhou!");
+        }
     }
 
-    [HttpDelete("{alunoId:int}")]
-    public IActionResult Delete(int alunoId)
+    [HttpDelete("{professorId:int}")]
+    public IActionResult Delete(int professorId)
     {
-        return View();
+        try
+        {
+            return Ok();
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Banco de dados Falhou!");
+        }
     }
 }
