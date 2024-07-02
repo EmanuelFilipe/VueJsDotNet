@@ -25,3 +25,4 @@ pnpm-debug.log*
 # Arquivos DotNetCore e EfCore
 bin
 obj
+.vs
