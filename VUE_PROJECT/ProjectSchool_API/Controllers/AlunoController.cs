@@ -62,13 +62,11 @@ public class AlunoController : Controller
     {
         try
         {
-            if (ModelState.IsValid)
-            {
-                _repo.Add(model);
+            _repo.Add(model);
 
-                if (await _repo.SaveChangesAsync())
-                    return Created($"/api/aluno/{model.Id}", model);
-            }
+            if (await _repo.SaveChangesAsync())
+                return Created($"/api/aluno/{model.Id}", model);
+
             return BadRequest();
         }
         catch (Exception)
@@ -82,19 +80,16 @@ public class AlunoController : Controller
     {
         try
         {
-            if (ModelState.IsValid)
+            var aluno = await _repo.GetAlunoAsyncById(alunoId, false);
+
+            if (aluno == null) return NotFound();
+
+            _repo.Update(model);
+
+            if (await _repo.SaveChangesAsync())
             {
-                var aluno = await _repo.GetAlunoAsyncById(alunoId, false);
-
-                if (aluno == null) return NotFound();
-
-                _repo.Update(model);
-
-                if (await _repo.SaveChangesAsync())
-                {
-                    aluno = await _repo.GetAlunoAsyncById(alunoId, true);
-                    return Created($"/api/aluno/{model.Id}", aluno);
-                }
+                aluno = await _repo.GetAlunoAsyncById(alunoId, true);
+                return Created($"/api/aluno/{model.Id}", aluno);
             }
             return BadRequest();
         }

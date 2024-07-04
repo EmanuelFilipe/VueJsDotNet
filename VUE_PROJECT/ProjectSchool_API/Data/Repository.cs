@@ -40,8 +40,7 @@ public class Repository<T> : IRepository<T> where T : class
     {
         IQueryable<Aluno> query = _context.Alunos;
 
-        if (includeProfessor)
-            query = query.Include(p => p.Professor);
+        if (includeProfessor) query = query.Include(p => p.Professor);
 
         query = query.AsNoTracking().OrderBy(a => a.Id);
 
@@ -52,7 +51,7 @@ public class Repository<T> : IRepository<T> where T : class
     {
         var aluno = _context.Alunos.Where(a => a.Id == alunoId);
 
-        if (includeProfessor) aluno.Include(p => p.Professor);
+        if (includeProfessor) aluno = aluno.Include(p => p.Professor);
 
         aluno = aluno.AsNoTracking();
 
@@ -63,7 +62,7 @@ public class Repository<T> : IRepository<T> where T : class
     {
          IQueryable<Aluno> query = _context.Alunos;
 
-        if (includeProfessor) query.Include(p => p.Professor);
+        if (includeProfessor) query = query.Include(p => p.Professor);
 
         query = query.AsNoTracking().Where(a => a.ProfessorId == professorId);
 
@@ -88,7 +87,7 @@ public class Repository<T> : IRepository<T> where T : class
     {
         var professor = _context.Professores.Where(a => a.Id == professorId);
 
-        if (includeAluno) professor.Include(p => p.Alunos);
+        if (includeAluno) professor = professor.Include(p => p.Alunos);
 
         professor = professor.AsNoTracking();
 

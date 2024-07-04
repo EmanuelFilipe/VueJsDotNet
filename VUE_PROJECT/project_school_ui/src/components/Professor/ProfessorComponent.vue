@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TituloComponent titulo="Professores" />
+    <TituloComponent titulo="Professores" btnVoltar="true" />
     <table class="table">
       <thead>
         <th>Cód.</th>
@@ -42,7 +42,7 @@ export default {
     };
   },
   created() {
-    this.$http.get('http://localhost:3000/alunos')
+    this.$http.get('http://localhost:5211/api/aluno')
               .then(response => response.json())
               .then(alunos => {
                 this.Alunos = alunos
@@ -63,7 +63,7 @@ export default {
       })
     },
     carregarProfessores() {
-      this.$http.get('http://localhost:3000/professores')
+      this.$http.get('http://localhost:5211/api/professor')
                 .then(response => response.json())
                 .then(professores => {
                   this.Professores = professores

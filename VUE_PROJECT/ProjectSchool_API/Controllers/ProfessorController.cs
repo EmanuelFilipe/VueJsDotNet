@@ -9,7 +9,7 @@ namespace ProjectSchool_API.Controllers;
 public class ProfessorController : Controller
 {
     public IRepository<Professor> _repo { get; }
-    
+
     public ProfessorController(IRepository<Professor> repository)
     {
         _repo = repository;
@@ -48,13 +48,11 @@ public class ProfessorController : Controller
     {
         try
         {
-            if (ModelState.IsValid)
-            {
-                _repo.Add(model);
+            _repo.Add(model);
 
-                if (await _repo.SaveChangesAsync())
-                    return Created($"/api/professor/{model.Id}", model);
-            }
+            if (await _repo.SaveChangesAsync())
+                return Created($"/api/professor/{model.Id}", model);
+
             return BadRequest();
         }
         catch (Exception)
@@ -68,20 +66,19 @@ public class ProfessorController : Controller
     {
         try
         {
-            if (ModelState.IsValid)
+
+            var professor = await _repo.GetProfessorAsyncById(professorId, false);
+
+            if (professor == null) return NotFound();
+
+            _repo.Update(model);
+
+            if (await _repo.SaveChangesAsync())
             {
-                var professor = await _repo.GetProfessorAsyncById(professorId, false);
-
-                if (professor == null) return NotFound();
-
-                _repo.Update(model);
-
-                if (await _repo.SaveChangesAsync())
-                {
-                    professor = await _repo.GetProfessorAsyncById(professorId, true);
-                    return Created($"/api/professor/{model.Id}", professor);
-                }
+                professor = await _repo.GetProfessorAsyncById(professorId, true);
+                return Created($"/api/professor/{model.Id}", professor);
             }
+
             return BadRequest();
         }
         catch (Exception)

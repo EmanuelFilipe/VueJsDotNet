@@ -1,12 +1,13 @@
 <template>
   <div>
-    <TituloComponent :titulo="professorid != undefined ? 'Professor: ' + professor.nome : 'Todos os Alunos'" />
+    <TituloComponent :titulo="professorid != undefined ? 'Professor: ' + professor.nome : 'Todos os Alunos'" 
+    btnVoltar="true"
+    />
     <div v-if="professorid != undefined">
       <input class="form-control" type="text" placeholder="Nome do Aluno" v-model="nome"
       v-on:keyup.enter="addAluno()">
       <button class="btn btnInput" @click="addAluno()"> Adicionar</button>
     </div>
-    <br>
     <div>
       <table class="table">
         <thead>
@@ -59,12 +60,12 @@ export default {
     debugger
     if (this.professorid) {
       this.carregarProfessores()
-      this.$http.get('http://localhost:3000/alunos?professor.id=' + this.professorid)
+      this.$http.get(`http://localhost:5211/api/aluno/ByProfessor/${this.professorid}`)
               .then(response => response.json())
               .then(alunos => this.alunos = alunos)
     }
     else {
-      this.$http.get('http://localhost:3000/alunos')
+      this.$http.get('http://localhost:5211/api/aluno')
                 .then(response => response.json())
                 .then(alunos => this.alunos = alunos)
     }
@@ -76,14 +77,12 @@ export default {
       let _aluno = {
         nome: this.nome,
         sobrenome: "",
-        professor: {
-          id: this.professor.id,
-          nome: this.professor.nome
-        }
+        dataNasc: "",
+        professorid: this.professor.id
       }
 
       this.$http
-              .post('http://localhost:3000/alunos', _aluno)
+              .post('http://localhost:5211/api/aluno', _aluno)
               .then(response => response.json())
               .then(aluno => {
                 this.alunos.push(aluno)
@@ -95,7 +94,7 @@ export default {
     },
     remover(aluno){
       this.$http
-              .delete(`http://localhost:3000/alunos/${aluno.id}`)
+              .delete(`http://localhost:5211/api/aluno/${aluno.id}`)
               .then(() => {
                 //indíce do aluno no array
                 let indice = this.alunos.indexOf(aluno);
@@ -104,7 +103,7 @@ export default {
               })
     },
     carregarProfessores() {
-      this.$http.get(`http://localhost:3000/professores/${this.professorid}`)
+      this.$http.get(`http://localhost:5211/api/professor/${this.professorid}`)
                 .then(response => response.json())
                 .then(professor => {
                   this.professor = professor
